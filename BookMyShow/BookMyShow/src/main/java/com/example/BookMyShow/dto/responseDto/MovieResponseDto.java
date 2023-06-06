@@ -3,6 +3,7 @@ package com.example.BookMyShow.dto.responseDto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter

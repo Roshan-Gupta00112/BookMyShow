@@ -1,10 +1,10 @@
 package com.example.BookMyShow.controller;
 
+import com.example.BookMyShow.dto.entryDto.ShowEntryDto;
+import com.example.BookMyShow.dto.responseDto.ShowResponseDto;
+import com.example.BookMyShow.service.impl.ShowServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("show")
@@ -13,7 +13,7 @@ public class ShowController {
     ShowServiceImpl showService;
 
     @PostMapping("/add")
-    public ShowResponseDto addShow(@RequestBody()ShowEntryDto showEntryDto){
+    public ShowResponseDto addShow(@RequestBody() ShowEntryDto showEntryDto){
         return showService.addShow(showEntryDto);
     }
 

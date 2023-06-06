@@ -1,5 +1,7 @@
 package com.example.BookMyShow.converter;
 
+import com.example.BookMyShow.dto.responseDto.TicketResponseDto;
+import com.example.BookMyShow.model.Ticket;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

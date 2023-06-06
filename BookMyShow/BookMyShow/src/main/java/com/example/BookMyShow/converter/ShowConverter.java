@@ -1,5 +1,7 @@
 package com.example.BookMyShow.converter;
 
+import com.example.BookMyShow.dto.entryDto.ShowEntryDto;
+import com.example.BookMyShow.dto.responseDto.ShowResponseDto;
 import com.example.BookMyShow.model.Show;
 import lombok.experimental.UtilityClass;
 
@@ -13,7 +15,7 @@ public class ShowConverter {
                 showTime(showDto.getShowTime()).
                 build();
     }
-    public static ShowResponseDto entityToDto(Show show,ShowEntryDto showEntryDto){
+    public static ShowResponseDto entityToDto(Show show, ShowEntryDto showEntryDto){
         return ShowResponseDto.builder().
                 id(show.getId()).
                 showDate(show.getShowDate()).

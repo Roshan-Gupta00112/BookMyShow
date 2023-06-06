@@ -1,5 +1,8 @@
 package com.example.BookMyShow.converter;
 
+import com.example.BookMyShow.dto.entryDto.MovieEntryDto;
+import com.example.BookMyShow.dto.responseDto.MovieNameAndIdObject;
+import com.example.BookMyShow.dto.responseDto.MovieResponseDto;
 import com.example.BookMyShow.model.Movie;
 import lombok.experimental.UtilityClass;
 

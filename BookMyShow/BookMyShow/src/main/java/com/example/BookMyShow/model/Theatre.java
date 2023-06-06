@@ -1,6 +1,7 @@
 package com.example.BookMyShow.model;
 
 
+import com.example.BookMyShow.enums.TheatreType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

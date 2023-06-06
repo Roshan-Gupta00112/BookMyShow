@@ -1,5 +1,7 @@
 package com.example.BookMyShow.dto.entryDto;
 
+import com.example.BookMyShow.dto.responseDto.ShowResponseDto;
+import com.example.BookMyShow.dto.responseDto.UserResponseDto;
 import lombok.Builder;
 import lombok.Data;
 

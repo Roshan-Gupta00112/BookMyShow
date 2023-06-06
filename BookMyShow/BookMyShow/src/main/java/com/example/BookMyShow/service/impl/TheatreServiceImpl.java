@@ -10,6 +10,7 @@ import com.example.BookMyShow.repository.TheatreRepository;
 import com.example.BookMyShow.repository.TheatreSeatRepository;
 import com.example.BookMyShow.service.TheatreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
