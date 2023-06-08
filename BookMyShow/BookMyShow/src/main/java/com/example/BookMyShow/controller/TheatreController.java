@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("theatre")
+@RequestMapping("/theatre")
 public class TheatreController {
 
     @Autowired
     TheatreServiceImpl theatreService;
 
-    @PostMapping("add")
-    public TheatreResponseDto addTheatre(@RequestBody() TheatreEntryDto theatreEntryDto){
-        return theatreService.addTheatre(theatreEntryDto);
+
+    @PostMapping("/add")
+    public TheatreResponseDto addTheatre(@RequestBody() TheatreEntryDto theaterEntryDto){
+
+        return theatreService.addTheatre(theaterEntryDto);
+
     }
+
 }

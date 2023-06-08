@@ -2,60 +2,67 @@ package com.example.BookMyShow.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
 
-@Table(name = "shows")
+@Getter
+@Setter
 @Entity
-@Data
-@AllArgsConstructor
+@EntityListeners(value = { AuditingEntityListener.class })
+@Table(name = "shows")
 @NoArgsConstructor
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class Show {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
 
-    @Column(name = "show_date",nullable = false)
-    LocalDate showDate;
+    @Column(name = "show_date", columnDefinition = "DATE", nullable = false)
+    private LocalDate showDate;
 
-    @Column(name = "show_time",nullable = false)
-    LocalTime showTime;
+    @Column(name = "show_time", columnDefinition = "TIME", nullable = false)
+    private LocalTime showTime;
+
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_at")
-    Date createAt;
+    @Column(name = "created_at")
+    private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "update_at")
-    Date updateAt;
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
-    @OneToMany(mappedBy = "show",cascade = CascadeType.ALL)
-    @JsonIgnore
-    List<Ticket> tickets;
-
-    @OneToMany(mappedBy = "show",cascade = CascadeType.ALL)
-    @JsonIgnore
-    List<ShowSeats> showSeats;
-
+    //Must required in DTO
     @ManyToOne
-    @JoinColumn
-    Movie movies;
+    @JsonIgnore
+    private Movie movie;
 
+
+    //Must required ?
     @ManyToOne
-    @JoinColumn
-    Theatre theatre;
+    @JsonIgnore
+    private Theatre theatre;
+
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Ticket> tickets;
+
+
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ShowSeats> seats;
+
 }

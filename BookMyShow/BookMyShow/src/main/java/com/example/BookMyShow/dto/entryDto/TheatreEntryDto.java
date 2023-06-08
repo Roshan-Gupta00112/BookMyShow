@@ -7,8 +7,10 @@ import lombok.Data;
 @Data
 @Builder
 public class TheatreEntryDto {
+
     String name;
     String address;
     String city;
     TheatreType type;
+
 }

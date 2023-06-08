@@ -6,11 +6,14 @@ import com.example.BookMyShow.dto.responseDto.MovieResponseDto;
 
 public interface MovieService {
 
-    //add
-    public MovieResponseDto addMovie(MovieEntryDto movieDto);
+    //Add movie
+    MovieResponseDto addMovie(MovieEntryDto movieEntryDto);
 
-    public MovieNameAndIdObject getNameAndId(int id);
 
-    //get
-    public MovieResponseDto getMovie(int id);
+    //get movie
+    MovieResponseDto getMovie(int id);
+
+    MovieNameAndIdObject getNameAndId(int id);
+
+
 }

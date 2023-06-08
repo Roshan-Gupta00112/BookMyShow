@@ -3,42 +3,42 @@ package com.example.BookMyShow.model;
 
 import com.example.BookMyShow.enums.TheatreType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "theatres")
+@Getter
+@Setter
 @Entity
-@Data
-@AllArgsConstructor
+@Table(name = "theaters")
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Theatre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "address",nullable = false)
-    private String address;
 
-    @Column(name = "city",nullable = false)
+    @Column(name = "city", nullable = false)
     private String city;
 
-    TheatreType type;
+    @Column(name = "address", nullable = false)
+    private String address;
 
-    @OneToMany(mappedBy = "theatre",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Show> shows;
 
-    @OneToMany(mappedBy = "theatre",cascade = CascadeType.ALL)
+    TheatreType type;
+
+    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<TheatreSeat> theatreSeats=new ArrayList<>();
+    private List<TheatreSeat> seats = new ArrayList<>();
 }

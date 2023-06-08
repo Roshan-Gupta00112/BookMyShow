@@ -8,11 +8,25 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UserConverter {
 
-    public static User dtoToEntity(UserEntryDto userDto){
-        return User.builder().name(userDto.getName()).mobile(userDto.getMobile()).build();
+
+    public static User convertDtoToEntity(UserEntryDto userEntryDto){
+
+        //.builder() is a method
+
+        //I need to create the User
+        return User.builder().name(userEntryDto.getName()).mobile(userEntryDto.getMobNo()).build();
+
+
+        //Second method for creating the object ??
+        //Using the new keyword
+
     }
 
-    public static UserResponseDto entityToDto(User user){
-        return UserResponseDto.builder().id(user.getId()).name(user.getName()).mobile(user.getMobile()).build();
+    public static UserResponseDto convertEntityToDto(User user){
+
+        return UserResponseDto.builder().id(user.getId()).name(user.getName())
+                .mobNo(user.getMobile()).build();
+
     }
+
 }

@@ -7,5 +7,4 @@ public interface ShowService {
 
     public ShowResponseDto addShow(ShowEntryDto showDto);
 
-    public ShowResponseDto getShow(int id);
 }

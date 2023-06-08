@@ -9,21 +9,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserController {
+
 
     @Autowired
     UserServiceImpl userService;
 
-    @PostMapping("add")
+    @PostMapping("/add")
     public ResponseEntity addUser(@RequestBody UserEntryDto userEntryDto){
+
         userService.addUser(userEntryDto);
+
         return new ResponseEntity("Added a success User", HttpStatus.CREATED);
+
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<UserResponseDto> gerUser(@PathVariable(value = "id")int id){
-        UserResponseDto userResponseDto=userService.getUser(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> getUser(@PathVariable(value = "id")int id){
+
+        UserResponseDto userResponseDto = userService.getUser(id);
         return new ResponseEntity<>(userResponseDto,HttpStatus.OK);
     }
+
 }

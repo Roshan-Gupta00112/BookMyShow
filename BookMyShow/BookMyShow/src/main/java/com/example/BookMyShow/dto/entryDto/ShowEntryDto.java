@@ -2,6 +2,7 @@ package com.example.BookMyShow.dto.entryDto;
 
 import com.example.BookMyShow.dto.responseDto.MovieResponseDto;
 import com.example.BookMyShow.dto.responseDto.TheatreResponseDto;
+import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -13,15 +14,15 @@ import java.time.LocalTime;
 @Builder
 public class ShowEntryDto {
 
-    @NonNull
+    @NotNull
     LocalDate showDate;
 
-    @NonNull
+    @NotNull
     LocalTime showTime;
 
-    @NonNull
+    @NotNull
     MovieResponseDto movieResponseDto;
 
-    @NonNull
+    @NotNull
     TheatreResponseDto theatreResponseDto;
 }

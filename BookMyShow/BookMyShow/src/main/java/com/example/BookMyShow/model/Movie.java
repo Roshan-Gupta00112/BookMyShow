@@ -2,33 +2,37 @@ package com.example.BookMyShow.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "movies")
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id; //Auto-generated
 
-    @Column(name = "name",nullable = false)
-    String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "release_date",nullable = false)
-    LocalDate releaseDate;
 
-    @OneToMany(mappedBy = "movies",cascade = CascadeType.ALL)
+    @Column(name = "release_date", columnDefinition = "DATE", nullable = false)
+    private LocalDate releaseDate;
+
+
+    //Connecting the other table
+    //Since this is the parent (how did we come to know : its having mappedBy and cascade )
+    //child table : its having @JoinColumn Annotation
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Show> shows;
 }

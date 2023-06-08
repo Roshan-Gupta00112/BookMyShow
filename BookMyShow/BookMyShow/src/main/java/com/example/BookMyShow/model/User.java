@@ -1,31 +1,31 @@
 package com.example.BookMyShow.model;
 
 
-import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
+import javax.persistence.*;
 import java.util.List;
 
-@Table(name = "users")
+@Getter
+@Setter
 @Entity
-@Data
-@AllArgsConstructor
+@Table(name = "users")
 @NoArgsConstructor
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "mobile",nullable = false)
+    @Column(name = "mobile", nullable = false)
     private String mobile;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Ticket> ticketList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //bidirectional mapping
+    private List<Ticket> ticketEntities;
+
 }

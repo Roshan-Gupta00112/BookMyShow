@@ -16,16 +16,21 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public void addUser(UserEntryDto userDto) {
+    public void addUser(UserEntryDto userEntryDto) {
 
-        User user= UserConverter.dtoToEntity(userDto);
-        userRepository.save(user);
+        User userEntity = UserConverter.convertDtoToEntity(userEntryDto); //Cleaner
+        userRepository.save(userEntity);
     }
 
     @Override
     public UserResponseDto getUser(int id) {
-        User user=userRepository.findById(id).get();
-        UserResponseDto userDto=UserConverter.entityToDto(user);
-        return userDto;
+
+        User user = new User(); //By default user.
+
+        User userEntity = userRepository.findById(id).get();
+
+        UserResponseDto userResponseDto = UserConverter.convertEntityToDto(userEntity);
+
+        return userResponseDto;
     }
 }

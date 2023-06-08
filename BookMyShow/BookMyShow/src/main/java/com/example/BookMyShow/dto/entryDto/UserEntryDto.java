@@ -1,15 +1,17 @@
 package com.example.BookMyShow.dto.entryDto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserEntryDto {
 
-    @NonNull
     String name;
-
-    String mobile;
+    String mobNo;
 }
+

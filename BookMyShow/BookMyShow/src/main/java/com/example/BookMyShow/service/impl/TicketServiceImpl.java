@@ -11,6 +11,7 @@ import com.example.BookMyShow.repository.ShowRepository;
 import com.example.BookMyShow.repository.TicketRepository;
 import com.example.BookMyShow.repository.UserRepository;
 import com.example.BookMyShow.service.TicketService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class TicketServiceImpl implements TicketService {
 
     @Autowired
@@ -32,69 +34,109 @@ public class TicketServiceImpl implements TicketService {
     TicketRepository ticketRepository;
 
     @Override
-    public TicketResponseDto bookTicket(BookTicketRequestDto bookTicketRequestDto) {
+    public TicketResponseDto getTicket(int id) {
 
-        User user=userRepository.findById(bookTicketRequestDto.getId()).get();
-        Show show=showRepository.findById(bookTicketRequestDto.getShowId()).get();
+        Ticket ticketEntity = ticketRepository.findById(id).get();
 
-        //SeatType seatType= bookTicketRequestDto.getSeatType();
+        TicketResponseDto ticketResponseDto = TicketConverter.convertEntityToDto(ticketEntity);
 
-        Set<String> requestedSeats = bookTicketRequestDto.getRequestedSeats();
+        return ticketResponseDto;
 
-        List<ShowSeats> showSeatsList=show.getShowSeats();
-        //Set<String> allottedSeats;
-
-        List<ShowSeats> bookedSeats =new ArrayList<>();
-        for(ShowSeats seats : showSeatsList){
-            if(!seats.isBooked() && seats.getSeatType().equals(bookTicketRequestDto.getSeatType()) && requestedSeats.contains(seats.getSeatNumber())){
-                bookedSeats.add(seats);
-            }
-        }
-
-        for(ShowSeats seats : bookedSeats) System.out.println(seats);
-        if(bookedSeats.size()!=requestedSeats.size()){
-            throw new Error("All Seats Not Available");
-        }
-
-        Ticket ticket=Ticket.builder().
-                user(user).
-                show(show).
-                showSeats(bookedSeats).
-                build();
-
-        int amount=0;
-
-        for(ShowSeats seat : bookedSeats){
-            seat.setBooked(true);
-            seat.setBookedAt(new Date());
-            seat.setTicket(ticket);
-
-            amount += seat.getRate();
-        }
-        ticket.setAmount(amount);
-        ticket.setAllottedSeat(convertListOfSeatsToString(bookedSeats));
-        ticket.setBookedAt(new Date());
-
-        show.getTickets().add(ticket);
-
-        user.getTicketList().add(ticket);
-        ticket=ticketRepository.save(ticket);
-
-        return TicketConverter.entityToDto(ticket);
-    }
-
-    public String convertListOfSeatsToString(List<ShowSeats> bookedSeats){
-        String str="";
-        for(ShowSeats seats : bookedSeats) {
-            str = str + seats.getSeatNumber()+" ";
-        }
-        return str;
     }
 
     @Override
-    public TicketResponseDto getTicket(int id) {
-        Ticket ticket= ticketRepository.findById(id).get();
-        TicketResponseDto ticketDto= TicketConverter.entityToDto(ticket);
-        return ticketDto;
+    public TicketResponseDto bookTicket(BookTicketRequestDto bookTicketRequestDto) {
+
+
+        User userEntity = userRepository.findById(bookTicketRequestDto.getUserId()).get();
+        Show showEntity = showRepository.findById(bookTicketRequestDto.getShowId()).get();
+
+        log.info("Ticket half processed");
+
+        Set<String> requestSeats = bookTicketRequestDto.getRequestedSeats();
+
+
+        List<ShowSeats> showSeatsEntityList = showEntity.getSeats();
+
+        // for(ShowSeatsEntity seat: showSeatsEntityList) System.out.print(seat+" ");
+
+
+//        //Another way to iterate. Try to study about it.
+//        List<ShowSeatsEntity> bookedSeats = showSeatsEntityList
+//                .stream()
+//                .filter(seat -> seat.getSeatType().equals(bookTicketRequestDto.getSeatType())&&!seat.isBooked()&&
+//                        requestSeats.contains(seat.getSeatNumber()))
+//                .collect(Collectors.toList());
+
+
+
+        List<ShowSeats> bookedSeats = new ArrayList<>();
+
+        for(ShowSeats seat :showSeatsEntityList){
+
+            if(!seat.isBooked()&&seat.getSeatType().equals(bookTicketRequestDto.getSeatType())&&requestSeats.contains(seat.getSeatNumber())){
+                bookedSeats.add(seat);
+            }
+        }
+
+        if(bookedSeats.size()!=requestSeats.size()){
+            //Al the seats were not avaiable
+            throw new Error("All Seats not available");
+        }
+
+        //Step 2
+
+        Ticket ticketEntity = Ticket.builder().
+                user(userEntity)
+                .show(showEntity)
+                .seats(bookedSeats).
+                build();
+
+
+
+        //Step 3 :
+
+        double amount = 0;
+
+        for(ShowSeats showSeatsEntity: bookedSeats){
+
+            showSeatsEntity.setBooked(true);
+            showSeatsEntity.setBookedAt(new Date());
+            showSeatsEntity.setTicket(ticketEntity);
+
+            amount = amount + showSeatsEntity.getRate();
+        }
+
+        ticketEntity.setBookedAt(new Date());
+        ticketEntity.setAllottedSeats(convertListOfSeatsEntityToString(bookedSeats));
+        ticketEntity.setAmount(amount);
+
+
+        //Connect in thw Show and the user
+
+        showEntity.getTickets().add(ticketEntity);
+
+
+        //Add the ticket in the tickets list of the user Entity
+        userEntity.getTicketEntities().add(ticketEntity);
+
+
+        ticketEntity = ticketRepository.save(ticketEntity);
+
+        return TicketConverter.convertEntityToDto(ticketEntity);
+
+
+    }
+
+    public String convertListOfSeatsEntityToString(List<ShowSeats> bookedSeats){
+
+        String str = "";
+        for(ShowSeats showSeatsEntity : bookedSeats){
+
+            str = str + showSeatsEntity.getSeatNumber()+" ";
+        }
+
+        return str;
+
     }
 }

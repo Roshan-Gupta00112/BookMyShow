@@ -8,21 +8,19 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TheatreConverter {
 
-    public static Theatre dtoToEntity(TheatreEntryDto theatreDto){
-        return Theatre.builder().
-                name(theatreDto.getName()).
-                address(theatreDto.getAddress()).
-                city(theatreDto.getCity()).
-                type(theatreDto.getType()).
-                build();
+    public static Theatre convertDtoToEntity(TheatreEntryDto theaterEntryDto){
+
+        return Theatre.builder().address(theaterEntryDto.getAddress())
+                .city(theaterEntryDto.getCity()).name(theaterEntryDto.getName()).type(theaterEntryDto.getType()).build();
+
+
     }
-    public static TheatreResponseDto entityToDto(Theatre theatre){
-        return TheatreResponseDto.builder().
-                id(theatre.getId()).
-                name(theatre.getName()).
-                address(theatre.getAddress()).
-                city(theatre.getCity()).
-                type(theatre.getType()).
-                build();
+
+    public static TheatreResponseDto convertEntityToDto(Theatre theaterEntity){
+
+        return TheatreResponseDto.builder().id(theaterEntity.getId()).name(theaterEntity.getName())
+                .city(theaterEntity.getCity()).address(theaterEntity.getAddress())
+                .type(theaterEntity.getType())
+                .build();
     }
 }

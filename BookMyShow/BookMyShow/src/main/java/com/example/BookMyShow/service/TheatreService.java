@@ -5,8 +5,9 @@ import com.example.BookMyShow.dto.responseDto.TheatreResponseDto;
 
 public interface TheatreService {
 
-    public TheatreResponseDto addTheatre(TheatreEntryDto theatreDto);
 
-    public TheatreResponseDto getTheatre(int id);
+    TheatreResponseDto addTheatre(TheatreEntryDto theaterEntryDto);
+
+    TheatreResponseDto getTheatre(int id);
 
 }

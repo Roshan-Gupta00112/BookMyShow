@@ -26,11 +26,11 @@ public class TheatreServiceImpl implements TheatreService {
 
     @Override
     public TheatreResponseDto addTheatre(TheatreEntryDto theatreDto) {
-        Theatre theatre= TheatreConverter.dtoToEntity(theatreDto);
+        Theatre theatre= TheatreConverter.convertDtoToEntity(theatreDto);
 
         List<TheatreSeat> theatreSeatList=createSeats();
 
-        theatre.setTheatreSeats(theatreSeatList);
+        theatre.setSeats(theatreSeatList);
 
         theatre.setShows(null);
 
@@ -38,13 +38,11 @@ public class TheatreServiceImpl implements TheatreService {
             theatreSeat.setTheatre(theatre);
         }
 
-        //theatre.setType(TheatreType.SINGLE);
-
         theatre=theatreRepository.save(theatre);
 
         theatreSeatRepository.saveAll(theatreSeatList);
 
-        TheatreResponseDto theatreResponseDto=TheatreConverter.entityToDto(theatre);
+        TheatreResponseDto theatreResponseDto=TheatreConverter.convertEntityToDto(theatre);
 
         return theatreResponseDto;
     }
@@ -52,23 +50,17 @@ public class TheatreServiceImpl implements TheatreService {
     public List<TheatreSeat> createSeats(){
         List<TheatreSeat> seats= new ArrayList<>();
 
-        seats.add(getTheatreSeat("A1",100,SeatType.SILVER));
-        seats.add(getTheatreSeat("A2",100,SeatType.SILVER));
-        seats.add(getTheatreSeat("A3",100,SeatType.SILVER));
-        seats.add(getTheatreSeat("A4",100,SeatType.SILVER));
-        seats.add(getTheatreSeat("A5",100,SeatType.SILVER));
+        seats.add(getTheatreSeat("A1",100,SeatType.CLASSIC));
+        seats.add(getTheatreSeat("A2",100,SeatType.CLASSIC));
+        seats.add(getTheatreSeat("A3",100,SeatType.CLASSIC));
+        seats.add(getTheatreSeat("A4",100,SeatType.CLASSIC));
+        seats.add(getTheatreSeat("A5",100,SeatType.CLASSIC));
 
-        seats.add(getTheatreSeat("B1",200,SeatType.GOLD));
-        seats.add(getTheatreSeat("B2",200,SeatType.GOLD));
-        seats.add(getTheatreSeat("B3",200,SeatType.GOLD));
-        seats.add(getTheatreSeat("B4",200,SeatType.GOLD));
-        seats.add(getTheatreSeat("B5",200,SeatType.GOLD));
-
-        seats.add(getTheatreSeat("C1",300,SeatType.SOFA));
-        seats.add(getTheatreSeat("C2",300,SeatType.SOFA));
-        seats.add(getTheatreSeat("C3",300,SeatType.SOFA));
-        seats.add(getTheatreSeat("C4",300,SeatType.SOFA));
-        seats.add(getTheatreSeat("C5",300,SeatType.SOFA));
+        seats.add(getTheatreSeat("B1",200,SeatType.PREMIUM));
+        seats.add(getTheatreSeat("B2",200,SeatType.PREMIUM));
+        seats.add(getTheatreSeat("B3",200,SeatType.PREMIUM));
+        seats.add(getTheatreSeat("B4",200,SeatType.PREMIUM));
+        seats.add(getTheatreSeat("B5",200,SeatType.PREMIUM));
 
         return seats;
     }
@@ -80,7 +72,7 @@ public class TheatreServiceImpl implements TheatreService {
     @Override
     public TheatreResponseDto getTheatre(int id) {
         Theatre theatre=theatreRepository.findById(id).get();
-        TheatreResponseDto theatreDto= TheatreConverter.entityToDto(theatre);
+        TheatreResponseDto theatreDto= TheatreConverter.convertEntityToDto(theatre);
         return theatreDto;
     }
 }

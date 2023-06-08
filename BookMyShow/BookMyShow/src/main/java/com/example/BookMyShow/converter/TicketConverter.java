@@ -7,7 +7,11 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TicketConverter {
 
-    public static TicketResponseDto entityToDto(Ticket ticket){
-        return TicketResponseDto.builder().id(ticket.getId()).amount(ticket.getAmount()).allottedSeats(ticket.getAllottedSeat()).build();
+    public static TicketResponseDto convertEntityToDto(Ticket ticketEntity){
+
+        return TicketResponseDto.builder().id((int) ticketEntity.getId()).amount(ticketEntity.getAmount())
+                .alloted_seats(ticketEntity.getAllottedSeats())
+                .build();
+
     }
 }

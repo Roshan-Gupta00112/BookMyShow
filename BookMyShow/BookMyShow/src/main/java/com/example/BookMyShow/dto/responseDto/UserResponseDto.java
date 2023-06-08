@@ -1,24 +1,21 @@
 package com.example.BookMyShow.dto.responseDto;
 
-import lombok.*;
+import com.example.BookMyShow.dto.entryDto.TicketDto;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
 public class UserResponseDto {
 
-    private int id;
+    int id;
 
-    @NonNull
-    private String name;
+    String name;
 
-    @NonNull
-    private String mobile;
+    String mobNo;
 
     //Optional
-    List<TicketResponseDto> tickets;
+    List<TicketDto> tickets;
 }

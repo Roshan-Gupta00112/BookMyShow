@@ -12,43 +12,61 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
 @Slf4j
+@Service
 public class MovieServiceImpl implements MovieService {
+
 
     @Autowired
     MovieRepository movieRepository;
 
     @Override
-    public MovieResponseDto addMovie(MovieEntryDto movieDto) {
+    public MovieResponseDto addMovie(MovieEntryDto movieEntryDto)  {
 
-        MovieResponseDto movieResponseDto=null;
 
-        if(movieRepository.existsByName(movieDto.getName())){
-            movieResponseDto.setName("This Movie Is Already Existing");
+        MovieResponseDto movieResponseDto = new MovieResponseDto();
+
+        //if the movie is already created then we can throw an exception....movie already exists.
+        if(movieRepository.existsByName(movieEntryDto.getName())){
+            movieResponseDto.setName("This movie is already Existing");
             return movieResponseDto;
         }
 
-        log.info("Reached addMovie function");
 
-        Movie movie= MovieConverter.dtoToEntity(movieDto);
-        movie= movieRepository.save(movie);
+        Movie movieEntity = MovieConverter.convertDtoToEntity(movieEntryDto);
 
-        movieResponseDto= MovieConverter.entityToDto(movie);
 
-        return movieResponseDto;
-    }
+        movieEntity = movieRepository.save(movieEntity); //This will auto add the id variable
 
-    public  MovieResponseDto getMovie(int id){
-        Movie movie=movieRepository.findById(id).get();
-        MovieResponseDto movieResponseDto=MovieConverter.entityToDto(movie);
-        return  movieResponseDto;
+        movieResponseDto = MovieConverter.convertEntityToDto(movieEntity);
+
+        return movieResponseDto; //It can be a response type of the movie
+
     }
 
     @Override
-    public MovieNameAndIdObject getNameAndId(int id) {
-        Movie movie=movieRepository.findById(id).get();
-        MovieNameAndIdObject obj=MovieConverter.entityToObj(movie);
+    public MovieResponseDto getMovie(int id) {
+
+        Movie movieEntity = movieRepository.findById(id).get();
+
+        MovieResponseDto movieResponseDto = MovieConverter.convertEntityToDto(movieEntity);
+        return movieResponseDto;
+
+    }
+
+    @Override
+    public MovieNameAndIdObject getNameAndId(int id){
+
+        //I need information from repo
+        Movie movieEntity = movieRepository.findById(id).get(); //Get this movieEntity from the database
+
+
+        //I have to convert it
+
+        MovieNameAndIdObject obj = MovieConverter.convertEntityToThisObject(movieEntity);
+
+
         return obj;
     }
+
 }

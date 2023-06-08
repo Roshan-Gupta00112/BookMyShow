@@ -14,9 +14,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class BookTicketRequestDto {
 
-    int id;
+    int userId;
     int showId;
     SeatType seatType;
     Set<String> requestedSeats;
-
 }

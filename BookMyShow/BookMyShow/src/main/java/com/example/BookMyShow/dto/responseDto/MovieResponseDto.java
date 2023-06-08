@@ -1,20 +1,22 @@
 package com.example.BookMyShow.dto.responseDto;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class MovieResponseDto {
 
-    private int id;
-    private String name;
-    private LocalDate releaseDate;
-    private List<ShowResponseDto> showDtos;
+    @NotNull
+    int id;
+    String name;
+    LocalDate releaseDate;
 
+    //Optional
+    List<ShowResponseDto> showDtoList;
 }

@@ -2,32 +2,33 @@ package com.example.BookMyShow.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "tickets")
+@Getter
+@Setter
 @Entity
-@Data
-@AllArgsConstructor
+@EntityListeners(value = { AuditingEntityListener.class })
+@Table(name = "tickets")
 @NoArgsConstructor
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "allotted_seat",nullable = false)
-    private String allottedSeat;
+    @Column(name = "alloted_seats", nullable = false)
+    private String allottedSeats;
 
-    @Column(name = "amount",nullable = false)
-    private int amount;
+    @Column(name = "amount", nullable = false)
+    private double amount;
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
@@ -35,16 +36,16 @@ public class Ticket {
     private Date bookedAt;
 
     @ManyToOne
-    @JoinColumn
     @JsonIgnore
+    @JoinColumn
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn
-    @JsonIgnore
-    Show show;
+    private Show show;
 
-    @OneToMany(mappedBy = "ticket",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<ShowSeats> showSeats;
+    private List<ShowSeats> seats;
 }

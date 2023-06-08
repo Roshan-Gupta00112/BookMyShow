@@ -9,20 +9,27 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class MovieConverter {
 
-    public static Movie dtoToEntity(MovieEntryDto movieDto){
-        return Movie.builder().
-                name(movieDto.getName()).
-                releaseDate(movieDto.getReleaseDate()).
-                build();
+
+    public static Movie convertDtoToEntity(MovieEntryDto movieEntryDto){
+
+        return Movie.builder() //.attribute (value)
+                .name(movieEntryDto.getName())
+                .releaseDate(movieEntryDto.getReleaseDate()).build();
+
     }
 
-    public static MovieResponseDto entityToDto(Movie movie){
-        return  MovieResponseDto.builder().id(movie.getId()).releaseDate(movie.getReleaseDate()).name(movie.getName()).build();
+
+    public static MovieResponseDto convertEntityToDto(Movie movieEntity){
+
+        return MovieResponseDto.builder().id(movieEntity.getId()).releaseDate(movieEntity.getReleaseDate()).name(movieEntity.getName()).build();
     }
-    public static MovieNameAndIdObject entityToObj(Movie movie){
+
+    public static MovieNameAndIdObject convertEntityToThisObject(Movie movieEntity){
+
+
         return MovieNameAndIdObject.builder().
-                id(movie.getId()).
-                name(movie.getName()).
-                build();
+                id(movieEntity.getId())
+                .name(movieEntity.getName()).build();
+
     }
 }
